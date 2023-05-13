@@ -15,6 +15,8 @@ defmodule Circuits.I2C.MixProject do
       compilers: [:elixir_make | Mix.compilers()],
       make_targets: ["all"],
       make_clean: ["clean"],
+      make_precompiler: {:nif, CCPrecompiler},
+      make_precompiled_url: "#{@source_url}/releases/download/v#{@version}/@{artefact_filename}",
       docs: docs(),
       aliases: [format: [&format_c/1, "format"]],
       start_permanent: Mix.env() == :prod,
@@ -47,7 +49,8 @@ defmodule Circuits.I2C.MixProject do
         "PORTING.md",
         "LICENSE",
         "CHANGELOG.md",
-        "Makefile"
+        "Makefile",
+        "checksum.exs"
       ],
       licenses: ["Apache-2.0"],
       links: %{"GitHub" => @source_url}
@@ -56,6 +59,8 @@ defmodule Circuits.I2C.MixProject do
 
   defp deps() do
     [
+      {:cc_precompiler, "~> 0.1.0", runtime: false, github: "cocoa-xu/cc_precompiler"},
+
       {:ex_doc, "~> 0.22", only: :docs, runtime: false},
       {:credo, "~> 1.6", only: :dev, runtime: false},
       {:dialyxir, "~> 1.2", only: :dev, runtime: false},
