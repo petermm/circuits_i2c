@@ -86,7 +86,9 @@ defmodule Circuits.I2C.MixProject do
     ]
   end
 
-  defp default_backend(), do: default_backend(Mix.env(), Mix.target())
+  # Application.get_env is not available on AtomVM, so we hardcode.
+  defp default_backend(), do: Circuits.I2C.AtomBackend
+  # defp default_backend(), do: default_backend(Mix.env(), Mix.target())
   defp default_backend(:test, _target), do: {Circuits.I2C.I2CDev, test: true}
 
   defp default_backend(_env, :host) do
